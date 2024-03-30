@@ -1,0 +1,93 @@
+version: 1.0.0
+
+# GO SDK使用的客户端部分。
+client:
+  # 客户端所属的组织，必须是organizations定义的组织
+  organization: org2.example.com
+  # 日志级别
+  logging:
+    level: info
+  # MSP证书的根路径
+  cryptoconfig:
+    path: /home/ubuntu/fabric-samples/test-network/organizations
+
+# 通道定义
+channels:
+  appchannel:
+    orderers:
+      - orderer.example.com
+    peers:
+      peer0.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+# 组织配置
+organizations:
+  JD:
+    mspid: "Org2MSP"
+    cryptoPath: /home/ubuntu/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/msp
+    peers:
+      - peer0.org2.example.com
+      - peer1.org2.example.com
+
+# orderer节点列表
+orderers:
+  orderer.example.com:
+    url: 127.0.0.1:7050
+    # 传递给gRPC客户端构造函数
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: true
+
+# peers节点列表
+peers:
+  # peer节点定义，可以定义多个
+  peer0.org2.example.com:
+    # URL用于发送背书和查询请求
+    url: 127.0.0.1:9051
+    # 传递给gRPC客户端构造函数
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.example.com
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: true
+  peer1.org2.example.com:
+    url: 127.0.0.1:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.org2.example.com
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: true
+  peer0.org1.example.com:
+    url: 127.0.0.1:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: true
+  peer1.org1.example.com:
+    url: 127.0.0.1:8051
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: true
